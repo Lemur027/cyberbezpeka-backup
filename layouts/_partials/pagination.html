@@ -3,7 +3,6 @@
 <footer class="page-footer">
   <nav class="page-nums">
     {{- $totalPages := $paginator.TotalPages -}}
-    {{- $currentPage := $paginator.PageNumber -}}
 
     {{- if $paginator.HasPrev -}}
     <a class="page-num prev" href="{{ $paginator.Prev.URL | absURL }}" aria-label="Previous">
@@ -16,22 +15,10 @@
     {{- end -}}
 
     {{- range $paginator.Pagers -}}
-      {{- $pageNumber := .PageNumber -}}
-      {{- $show := false -}}
-      {{- $isEdgeOrNear := or (le $pageNumber 2) (ge $pageNumber (sub $totalPages 1)) -}}
-      {{- $isNearCurrent := and (ge $pageNumber (sub $currentPage 2)) (le $pageNumber (add $currentPage 2)) -}}
-      {{- if or $isEdgeOrNear $isNearCurrent -}}
-        {{- $show = true -}}
-      {{- end -}}
-
-      {{- if $show -}}
-        {{- if eq $pageNumber $currentPage -}}
-    <a class="page-num active" href="{{ .URL | absURL }}">{{ $pageNumber }}</a>
-        {{- else -}}
-    <a class="page-num" href="{{ .URL | absURL }}">{{ $pageNumber }}</a>
-        {{- end -}}
-      {{- else if or (eq $pageNumber (sub $currentPage 3)) (eq $pageNumber (add $currentPage 3)) -}}
-    <span class="page-num dots">…</span>
+      {{- if eq .PageNumber $paginator.PageNumber -}}
+    <a class="page-num active" href="{{ .URL | absURL }}">{{ .PageNumber }}</a>
+      {{- else -}}
+    <a class="page-num" href="{{ .URL | absURL }}">{{ .PageNumber }}</a>
       {{- end -}}
     {{- end -}}
 
